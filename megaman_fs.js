@@ -102,7 +102,6 @@ class Megaman {
         this.x_Shooting = () => {
             direction = this.direction_Right ? "right" : "left";
             let shot = 0;
-            console.log(map_x);
             clearInterval(myInterval);
             myInterval = setInterval(() => {
                 this.default_y = 105;

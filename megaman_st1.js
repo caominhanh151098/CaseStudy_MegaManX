@@ -51,6 +51,7 @@ class Megaman {
 
         this.x_First_Tele = () => {
             count = 0;
+            clearInterval(myInterval);
             myInterval = setInterval(() => {
                 character.src = `png/first_Tele/${count}.png`;
                 count++;
@@ -71,6 +72,7 @@ class Megaman {
                 count++;
                 if (count == 10) {
                     count = 0;
+                    this.x_Basic_Mode();
                 }
             }, 100);
         }
@@ -102,7 +104,6 @@ class Megaman {
             let shot = 0;
             clearInterval(myInterval);
             myInterval = setInterval(() => {
-                console.log(map_x);
                 this.default_y = 105;
                 this.hitBox.top = this.default_y + 25;
                 this.hitBox.bottom = this.default_y + 70;
@@ -349,7 +350,6 @@ class Wall {
             wall_img.src = "png/hit_Wall/hit.png";
             setTimeout(() => wall_img.src = "png/hit_Wall/wall.png", 500);
             if (this.hpWall < 1) {
-                console.log("Next");
                 window.removeEventListener("keydown", keyDown);
                 window.removeEventListener("keyup", keyUp);
                 window.location = "./screen2.html";
@@ -365,7 +365,6 @@ let enemyImgs = new Array(enemy_Robots.length);
 enemy_Robots.forEach((enemy, index) => {
     document.getElementsByClassName("data")[0].innerHTML += `<img id="enemy_${index}">`;
     enemyImgs[index] = $(`enemy_${index}`);
-    console.log(index);
 });
 $("btnStart").addEventListener("click", () => {
     enemy_Robots.forEach((enemy, index) => {
