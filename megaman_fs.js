@@ -134,7 +134,7 @@ class Megaman {
                     window.addEventListener("keyup", keyUp)
                 }, 1100)
 
-            }, 40);
+            }, 60);
 
         }
 

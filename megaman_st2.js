@@ -136,7 +136,7 @@ class Megaman {
                     window.addEventListener("keydown", keyDown);
                     window.addEventListener("keyup", keyUp)
                 }, 1100)
-            }, 40);
+            }, 60);
         }
 
         this.hitBody = (x) => {
