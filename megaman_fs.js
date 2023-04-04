@@ -138,9 +138,9 @@ class Megaman {
 
         }
 
-        this.hitBody = () => {
+        this.hitBody = (x) => {
             direction = this.direction_Right ? "right" : "left";
-            this.healthPoint--;
+            this.healthPoint -= x;
             hpBar.src = `png/hp_Bar/${this.healthPoint}.png`;
             clearInterval(myInterval);
             myInterval = setInterval(() => {
@@ -329,8 +329,6 @@ class Boss {
                     this.x = -200;
                     this.y = 0;
                     this.hitBox = 0;
-                    window.removeEventListener("keydown", keyDown);
-                    window.removeEventListener("keyup", keyUp);
                 }
             }, 17);
         }
@@ -359,7 +357,7 @@ class Bullet_Boss {
                     this.animation.src = "png/boss/bullet/0.1.png";
                 }
                 ctx_5.drawImage(this.animation, this.x, this.y);
-                if (this.hit()) {
+                if (this.hit(1)) {
                     this.x = - 100;
                     this.y = 0;
                     this.speed = 0;
@@ -370,32 +368,32 @@ class Bullet_Boss {
             clearInterval(myInterval_4);
             myInterval_4 = setInterval(() => {
                 this.count++;
-                this.x -= this.speed + 1;
+                this.x -= this.speed * 2;
                 this.hitPoint.x = this.x;
                 this.hitPoint.y = this.y + 25;
-                if (this.count < 80) {
+                if (this.count < 50) {
                     this.animation.src = "png/boss/bullet/1.0.png";
                 }
-                else if (this.count < 180) {
+                else if (this.count < 150) {
                     this.animation.src = "png/boss/bullet/1.1.png";
                 }
                 else {
                     this.animation.src = "png/boss/bullet/1.2.png";
                 }
                 ctx_5.drawImage(this.animation, this.x, this.y);
-                if (this.hit()) {
+                if (this.hit(2)) {
                     this.x = - 100;
                     this.y = 0;
-                    this.speed = -1;
+                    this.speed = 0;
                 }
             }, 5);
         }
-        this.hit = () => {
+        this.hit = (x) => {
             if (this.hitPoint.x <= megaman.hitBox.right - map_x &&
                 this.hitPoint.x >= megaman.hitBox.left - map_x &&
                 this.hitPoint.y >= megaman.hitBox.top - 40 &&
                 this.hitPoint.y <= megaman.hitBox.bottom) {
-                megaman.hitBody();
+                megaman.hitBody(x);
                 return true;
             }
         }
