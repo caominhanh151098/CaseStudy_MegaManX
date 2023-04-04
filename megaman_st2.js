@@ -537,7 +537,7 @@ window.setInterval(() => {
             megaman.x_Moving();
             ctx.drawImage(background, map_x, map_y);
             if (count_open_door > 600) {
-                window.location = "./megaman_final_stage.html";
+                window.location = "./screen3.html";
             }
         }
         else {

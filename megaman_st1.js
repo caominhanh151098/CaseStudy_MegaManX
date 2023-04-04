@@ -352,7 +352,7 @@ class Wall {
                 console.log("Next");
                 window.removeEventListener("keydown", keyDown);
                 window.removeEventListener("keyup", keyUp);
-                window.location = "./megaman_stage2.html";
+                window.location = "./screen2.html";
             }
         }
     }
