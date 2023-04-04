@@ -32,9 +32,6 @@ let step = 0;
 let random = 0;
 let count_open_door = 0;
 let X = 0;
-let keyC = false,
-    keyLeft = false,
-    keyRight = false;
 
 function $(x) {
     return document.getElementById(x);
@@ -80,20 +77,10 @@ class Megaman {
             }, 100);
         }
 
-        this.move = () => {
-            if (keyLeft == true) {
-                this.direction_Right = false;
-                this.x_Moving();
-            }
-            if (keyRight == true) {
-                this.direction_Right = true;
-                this.x_Moving();
-            }
-        }
-
         this.x_Moving = () => {
             direction = this.direction_Right ? "right" : "left";
             step++;
+            this.default_y = 105;
             this.hitBox.top = this.default_y + 25;
             this.hitBox.bottom = this.default_y + 80;
             let x = parseInt(step / 4);
@@ -136,25 +123,52 @@ class Megaman {
                     window.addEventListener("keydown", keyDown);
                     window.addEventListener("keyup", keyUp)
                 }, 1100)
-            }, 60);
+            }, 40);
+        }
+        this.x_Dash = () => {
+            direction = this.direction_Right ? "right" : "left";
+            let dash = 0;
+            clearInterval(myInterval);
+            myInterval = setInterval(() => {
+                window.removeEventListener("keydown", keyDown);
+                window.removeEventListener("keyup", keyUp);
+                this.default_y = 105;
+                this.hitBox.top = this.default_y + 25;
+                this.hitBox.bottom = this.default_y + 80;
+                character.src = `png/dash/${direction}/${dash}.png`;
+                dash++;
+                if (dash == 19) {
+                    this.x_Basic_Mode();
+                }
+                setTimeout(() => {
+                    window.addEventListener("keydown", keyDown);
+                    window.addEventListener("keyup", keyUp)
+                }, 1100)
+            }, 40);
         }
 
         this.hitBody = (x) => {
             direction = this.direction_Right ? "right" : "left";
-            this.healthPoint -= x;
+            if (this.healthPoint == 1) {
+                this.healthPoint -= 1;
+            }
+            else {
+                this.healthPoint -= x;
+            }
+            hpBar.src = `png/hp_Bar/${this.healthPoint}.png`;
             clearInterval(myInterval);
             myInterval = setInterval(() => {
                 character.src = `png/hit/${direction}/0.png`;
                 setTimeout(this.x_Basic_Mode, 250);
             }, 60);
             if (this.healthPoint < 1) {
-                this.healthPoint = 0;
+                this.healthPoint = 1;
                 window.removeEventListener("keydown", keyDown);
                 window.removeEventListener("keyup", keyUp);
                 game_Over.src = `png/game_over/1.png`;
                 $("btnTry").style = "";
             }
-            hpBar.src = `png/hp_Bar/${this.healthPoint}.png`;
+
         }
     }
 }
@@ -277,7 +291,7 @@ class Enemy {
                 if (this.random < 20) {
                     this.shooting();
                     let bullet_Enemys = new Array(new Bullet_Enemy(0), new Bullet_Enemy(1)
-                    , new Bullet_Enemy(2), new Bullet_Enemy(3));
+                        , new Bullet_Enemy(2), new Bullet_Enemy(3));
                     for (let bullet_Enemy of bullet_Enemys) {
                         bullet_Enemy.shooting_bullet();
                     }
@@ -552,50 +566,58 @@ window.setInterval(() => {
 
 function keyDown(event) {
     if (event.keyCode == 88) {
-        keyX = true;
         megaman.x_Jumping();
     }
 
     if (event.keyCode == 67) {
-        keyC = true;
         megaman.x_Shooting();
         let bullet = new Bullet();
         bullet.shooting_bullet();
     }
     if (event.keyCode == 37) {
-        keyLeft = true;
+        megaman.direction_Right = false;
         clearInterval(myInterval_1);
         myInterval_1 = setInterval(() => {
             map_x += speed_X;
-            megaman.move();
+            megaman.x_Moving();
         }, 11);
     }
     if (event.keyCode == 39) {
-        keyRight = true;
+        megaman.direction_Right = true;
         clearInterval(myInterval_1);
         myInterval_1 = setInterval(() => {
             map_x -= speed_X;
-            megaman.move();
+            megaman.x_Moving();
         }, 11);
+    }
+    if (event.keyCode == 90) {
+        megaman.x_Dash();
+
+        clearInterval(myInterval_1);
+        myInterval_1 = setInterval(() => {
+            if (megaman.direction_Right) {
+                map_x -= speed_X * 3;
+            }
+            else {
+                map_x += speed_X * 3;
+            }
+            setTimeout(() => clearInterval(myInterval_1), 750);
+        }, 17);
     }
 }
 
 function keyUp(event) {
     clearInterval(myInterval_1);
-    if (event.keyCode == 88) {
-        keyX = false;
-    }
-    if (event.keyCode == 67) {
-        keyC = false;
-    }
 
     if (event.keyCode == 37) {
-        keyLeft = false;
         megaman.x_Basic_Mode();
     }
 
     if (event.keyCode == 39) {
-        keyRight = false;
+        megaman.x_Basic_Mode();
+    }
+    if (event.keyCode == 90) {
+        clearInterval(myInterval_1);
         megaman.x_Basic_Mode();
     }
 }
