@@ -1,0 +1,20 @@
+#myCanvas {
+    position: absolute;
+    width: 1500px;
+    height: 600px;
+    border: 1px solid;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+.data {
+    display: none;
+}
+
+#btn{
+    position: absolute;
+    margin: 0% auto;
+    transform: translate(-50%, -50%);
+    top: 85%;
+    left: 50%;
+}
