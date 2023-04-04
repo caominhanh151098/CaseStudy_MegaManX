@@ -102,6 +102,7 @@ class Megaman {
         this.x_Shooting = () => {
             direction = this.direction_Right ? "right" : "left";
             let shot = 0;
+            console.log(map_x);
             clearInterval(myInterval);
             myInterval = setInterval(() => {
                 this.default_y = 105;
@@ -258,7 +259,7 @@ class Boss {
             count_Enemy = 0;
             bossImg.src = `png/boss/basic/1.png`;
             myInterval_3 = setInterval(() => {
-                this.random = Math.floor(Math.random() * 2000);
+                this.random = Math.floor(Math.random() * 3000);
                 if (this.random < 20) {
                     this.shooting_High();
                     let bullet_Enemy = new Bullet_Boss(0);
@@ -322,7 +323,7 @@ class Boss {
             hpBarBoss.src = `png/boss/hp_Bar/${hp}.png`;
             clearInterval(myInterval_3);
             myInterval_3 = setInterval(() => {
-                bossImg.src = `png/boss/basic/hit.png`;
+                bossImg.src = `png/boss/basic/hit1.png`;
                 setTimeout(this.Basic_Mode, 250);
                 if (this.hp_Enemy < 1) {
                     this.hp_Enemy = 1;
@@ -371,10 +372,10 @@ class Bullet_Boss {
                 this.x -= this.speed * 2;
                 this.hitPoint.x = this.x;
                 this.hitPoint.y = this.y + 25;
-                if (this.count < 50) {
+                if (this.count < 60) {
                     this.animation.src = "png/boss/bullet/1.0.png";
                 }
-                else if (this.count < 150) {
+                else if (this.count < 120) {
                     this.animation.src = "png/boss/bullet/1.1.png";
                 }
                 else {
@@ -418,8 +419,20 @@ window.onload = function () {
 }
 window.setInterval(() => {
     ctx_1.reset();
+
     ctx.drawImage(background, 0, 0);
-    ctx_1.drawImage(character, megaman.default_x - map_x, megaman.default_y);
+    if (map_x < 195 && map_x > -770) {
+        ctx_1.drawImage(character, megaman.default_x - map_x, megaman.default_y);
+    }
+    else
+        if (map_x >= 195) {
+            map_x = 195;
+            ctx_1.drawImage(character, megaman.default_x - map_x, megaman.default_y);
+        }
+        else {
+            map_x = -770;
+            ctx_1.drawImage(character, megaman.default_x - map_x, megaman.default_y);
+        }
     ctx.drawImage(hpBar, 10, 10);
 
     ctx.drawImage(game_Over, WIDTH_CANVAS / 2 - width_img_gameover, 20);
