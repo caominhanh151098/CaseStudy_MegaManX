@@ -119,7 +119,7 @@ class Megaman {
                     window.addEventListener("keydown", keyDown);
                     window.addEventListener("keyup", keyUp)
                 }, 1100)
-            }, 40);
+            }, 70);
         }
         this.x_Dash = () => {
             direction = this.direction_Right ? "right" : "left";
@@ -140,7 +140,7 @@ class Megaman {
                     window.addEventListener("keydown", keyDown);
                     window.addEventListener("keyup", keyUp)
                 }, 1100)
-            }, 40);
+            }, 70);
         }
 
         this.hitBody = (x) => {
